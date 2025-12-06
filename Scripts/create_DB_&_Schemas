@@ -1,0 +1,27 @@
+/*
+Purpose : this script create the database if it doesnot exist already if exist it drop the database and recreates the database 
+in that case it will lose all data 
+*/
+
+--step 1 switch to master DB 
+USE MASTER;
+GO
+--step 2 check if already any DB with same name exist or not 
+IF EXISTS (SELECT 1 from sys.databases where name = 'DataWarehouse')
+BEGIN
+	ALTER DATABASE DataWarehouse SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+	DROP DATABASE DataWarehouse;
+END;
+GO 
+
+--step 3 create the database 
+CREATE DATABASE DataWarehouse;
+USE DataWarehouse;
+GO 
+--step 4 create schemas 
+CREATE SCHEMA Bronze;
+GO
+CREATE SCHEMA Silver;
+GO 
+CREATE SCHEMA Gold;
+
